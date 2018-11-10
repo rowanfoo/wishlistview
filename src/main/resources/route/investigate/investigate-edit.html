@@ -1,0 +1,23 @@
+<md-toolbar layout="row" layout-align="start center">Edit News</md-toolbar>
+
+
+
+<md-content flex layout-padding>
+
+    <md-content layout-fill>
+        <md-list>
+            <md-list-item class="md-3-line" ng-repeat="item in data" ng-click="null">
+                <div class="md-list-item-text" layout="column" >
+                    <div>
+                        <strong>{{item.code}}</strong>
+
+                        <span style="background:lightblue">{{item.reason}}</span>
+                        <md-button class="md-secondary" ng-click="secondaryButtonClickHandler(item.code)"> Edit </md-button>
+                    </div>
+                </div>
+            </md-list-item>
+        </md-list>
+    </md-content>
+
+
+</md-content>

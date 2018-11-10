@@ -1,0 +1,48 @@
+<md-dialog>
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{data.code}}</h2>
+        </div>
+    </md-toolbar>
+
+
+
+    <md-dialog-content class="md-dialog-content">
+        <form class="well input-form" name="inputform"   ng-submit="myFunc()">
+
+
+
+        <p>
+            <mat-form-field  style="width: 2600px;">
+                <textarea matInput md-input-name="crap"   ng-model="investigate.crap"    rows="5" cols="60" formControlName="description" matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 placeholder="crap"></textarea>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field  style="width: 2600px;">
+                <textarea matInput md-input-name="why"  ng-model="investigate.why"    rows="5" cols="60" formControlName="description" matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 placeholder="why"></textarea>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field  style="width: 2600px;">
+                <md-checkbox md-input-name="watch"
+                             ng-model="investigate.watch"
+                             ng-true-value="'Y'"
+                             ng-false-value="'N'"
+                >Watch</md-checkbox>
+            </mat-form-field>
+        </p>
+
+        <p><button type="submit" class="btn btn-info btn-fill pull-left">Submit</button></p>
+
+
+    </form>
+
+    </md-dialog-content>
+
+</md-dialog>
+
+
+
+
+
