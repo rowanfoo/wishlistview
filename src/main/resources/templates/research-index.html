@@ -1,0 +1,259 @@
+<html lang = "en">
+<head>
+    <!--<script src = "/fundamentalview/js/angular.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-animate.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-aria.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-messages.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-material.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-route.js"></script>-->
+
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.5/angular.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js"></script>
+
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-aria.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+    <script src = "/fundamentalview/templates/config.js"></script>
+
+
+    <link rel = "stylesheet" href = "/fundamentalview/css/angular-material.min.css">
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" >
+
+
+
+
+    <script language = "javascript">
+
+        var module = angular.module('firstApplication', ['ngMaterial','ngRoute']);
+        module.run(function($rootScope){
+            setconfig($rootScope);
+        });
+
+        module.config(function ($routeProvider) {
+
+            $routeProvider.when('/student', {
+                templateUrl: '/fundamentalview/route/allstock/allstockdefault.html',
+                controller: 'studentController'
+
+            }).when(
+                '/createnews', {
+                    templateUrl: '/fundamentalview/route/investigate/investigate-create.html',
+                    controller: 'investigate-create'
+                }
+
+            ).when(
+                '/editenews', {
+                    templateUrl: '/fundamentalview/route/investigate/investigate-edit.html',
+                    controller: 'investigate-edit',
+                    resolve:{
+                        testdata: ['$http',function ($http) {
+                            return $http.get('http://localhost:8070/reinvestigate').then(function (data) {
+                                // console.log(' load  ' + JSON.stringify(  data, null, "    ") );
+                                 return data.data;
+                            })
+                        }
+
+                        ]
+                    }
+
+                }
+
+            )
+
+        });
+
+
+        module.config(function($mdIconProvider) {
+            $mdIconProvider
+                .defaultFontSet('FontAwesome')
+                .fontSet('fa', 'FontAwesome');
+        });
+
+
+        module.config(function($sceDelegateProvider) {
+           $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://localhost:8070/**'] );
+        });
+
+        module.controller('investigate-create', ['$scope',  '$location' ,'$http','$mdDialog','submitform' ,function($scope,$location,$http,$mdDialog,submitform ) {
+
+            console.log( ' SUBMIT  investigate-create    ----'+JSON.stringify(    $scope.config , null, "    ") );
+            $scope.createinvestigate = function(){
+                $scope.data.code= $scope.mycode;
+                submitform.sendData('POST',config.invesitgaterest,$scope.data);
+                $scope.data={};
+            };
+
+            $scope.callback = function(amount){
+//                console.log( 'CALL BACK    ----'+JSON.stringify( amount, null, "    ") );
+                  $scope.mycode =amount ['code'];
+            }
+      }]);//eof
+
+        module.controller('investigate-edit', ['$scope',  '$location' ,'$http','testdata','$mdDialog','submitform' ,function($scope,$location,$http,$testdata,$mdDialog,submitform ) {
+            console.log(   'investigate-edit' );
+
+                submitform.sendData('a');
+
+            $scope.data=$testdata;
+          //  console.log( JSON.stringify(  $scope.data, null, "    ") );
+
+            $scope.secondaryButtonClickHandler = function (code) {
+                    $mdDialog.show({
+                        templateUrl: "/fundamentalview/dialog/dialogEditInvestige.html", parent: angular.element(document.body), clickOutsideToClose: true ,
+
+                        controller: function($scope, $http){
+                            $http.get(config.invesitgaterest+'/'+code).then(function (data) {
+                                $scope.data=data.data;
+                            });
+
+                            $scope.myFunc = function(){
+                                $scope.investigate.code=$scope.data.code;
+        //                        console.log( JSON.stringify( $scope.investigate, null, "    ") );
+                                 submitform.sendData('POST',config.invesitgaterest,$scope.investigate);
+                            }
+                } });
+
+                console.log("----end ---"   );
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }]);//eof
+
+
+            module.controller('studentController', ['$scope',  '$location' ,'$http', 'submitform', function($scope,$location,$http,submitform ){
+
+//              console.log( ' SUBMIT  investigate-create    ----'+JSON.stringify(    $scope.config , null, "    ") );
+
+                $scope.createstock = function () {
+
+                        $scope.stock.code=$scope.mycode;
+                        console.log( JSON.stringify( $scope.stock, null, "    ") );
+                        submitform.sendData('POST',$scope.config.stockrest,$scope.stock);
+
+
+                    console.log("----end ---"   );
+                };
+
+                $scope.callback = function(amount){
+                    console.log( 'CALL BACK    ----'+JSON.stringify( amount, null, "    ") );
+                    $scope.mycode =amount ['code'];
+                }
+
+
+
+
+        }]);
+
+
+        module.controller('sideNavController', ['$scope','$location', function($scope,$location){
+            console.log('HERE IN CONTROLLER');
+
+            $scope.alert = function(arg) {
+                console.log('I AM CLICK ');
+                alert(arg);
+                $location.path('/student');
+            }
+
+            $scope.createnews = function () {
+                $location.path('/createnews');
+
+            }
+
+            $scope.editnews = function () {
+                $location.path('/editenews');
+
+            }
+
+
+
+
+        }]);
+    </script>
+    <script src = "/fundamentalview/service/submitservice.js"></script>
+    <script src = "/fundamentalview/component/autcompletestock.js"></script>
+
+</head>
+<body ng-app="firstApplication" style="background-color: none" layout="row" ng-controller="sideNavController">
+
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-componentid="left" md-is-locked-open="$mdMedia('gt-md')">
+    <md-toolbar layout="row" layout-align="left">
+        <div>Welcome User!</div>
+        <div>login </div>
+        <div>logout </div>
+    </md-toolbar>
+
+
+
+
+
+
+
+    <md-list>
+        <md-subheader class="md-no-sticky">My Features</md-subheader>
+        <md-list-item class="secondary-button-padding" ng-click="alert('clicked')"> <p>  All Stock </p> </md-list-item>
+
+        <md-list-item class="secondary-button-padding" ng-click=""> <p> <a href="/fundamentalview/templates/research-index.html#/student/">ALLstock </a> </p> </md-list-item>
+        <md-list-item class="secondary-button-padding" ng-click="" md-ink-ripple="#FF0400"> <p>Fundamental</p> </md-list-item>
+            <md-menu>
+                <!-- Trigger for menu -->
+                <md-button ng-click="$mdOpenMenu()"> News </md-button>
+                <!-- Individual menu options and buttons-->
+
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="createnews()"> create </md-button>
+                    </md-menu-item>
+
+                    <md-menu-item>
+                        <md-button ng-click="editnews()"> edit </md-button>
+                    </md-menu-item>
+
+                </md-menu-content>
+            </md-menu>
+
+
+        <md-divider></md-divider>
+    </md-list>
+</md-sidenav>
+
+
+
+
+<div layout="column" layout-fill>
+    <div ng-view> </div>
+
+
+
+
+
+</div>
+
+</body>
+</html>
