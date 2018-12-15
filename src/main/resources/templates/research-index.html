@@ -21,10 +21,28 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 
-    <script src = "/fundamentalview/templates/config.js"></script>
+    <script src = "/wishlistview/templates/config.js"></script>
 
 
-    <link rel = "stylesheet" href = "/fundamentalview/css/angular-material.min.css">
+    <script src ="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+
+
+    <!--<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">-->
+    <!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
+    <!--<script type="text/javascript" charset="utf8" src=" http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>-->
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">-->
+
+
+    <!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
+    <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
+    <!--<script type="text/javascript" charset="utf8" src=" http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>-->
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
+
+
+
+
+    <link rel = "stylesheet" href = "/wishlistview/css/angular-material.min.css">
 
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -34,8 +52,50 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" >
 
+    <script src="/wishlistview/js/highstock.js"></script>
+    <script src="/wishlistview/js/exporting.js"></script>
+    <script src="/wishlistview/js/jquery.min.js"></script>
+    <script src="/wishlistview/js/ema.js"></script>
+    <script src="/wishlistview/js/rsi.js"></script>
+    <script src="/wishlistview/js/indicators.js"></script>
+    <script src = "/wishlistview/workjs/mychart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
 
 
+
+    <!--<link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">-->
+    <!--<script src="http://code.jquery.com/jquery-1.9.1.js"></script>-->
+    <!--&lt;!&ndash;<script type="text/javascript" charset="utf8" src=" http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>&ndash;&gt;-->
+    <!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>-->
+
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->
+
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.jqueryui.min.css"/>-->
+
+
+    <!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.jqueryui.min.js"></script>-->
+
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="http://cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+    <script  language = "javascript">
+        // $(function(){
+        //     var table = $("#example").DataTable();
+        //
+        //
+        //
+        // });
+        $(document).ready(function(){ $('#example').DataTable(); });
+
+
+
+    </script>
 
     <script language = "javascript">
 
@@ -47,29 +107,20 @@
         module.config(function ($routeProvider) {
 
             $routeProvider.when('/student', {
-                templateUrl: '/fundamentalview/route/allstock/allstockdefault.html',
+                templateUrl: '/wishlistview/route//wishlistcreate.html',
                 controller: 'studentController'
 
             }).when(
-                '/createnews', {
-                    templateUrl: '/fundamentalview/route/investigate/investigate-create.html',
-                    controller: 'investigate-create'
+                '/wishlistdetails', {
+                    templateUrl: '/wishlistview/route/wishlistdetail.html',
+                    controller: 'wishlistdetail-controller'
                 }
 
             ).when(
-                '/editenews', {
-                    templateUrl: '/fundamentalview/route/investigate/investigate-edit.html',
-                    controller: 'investigate-edit',
-                    resolve:{
-                        testdata: ['$http',function ($http) {
-                            return $http.get('http://localhost:8070/reinvestigate').then(function (data) {
-                                // console.log(' load  ' + JSON.stringify(  data, null, "    ") );
-                                 return data.data;
-                            })
-                        }
+                '/wishlistchart', {
+                    templateUrl: '/wishlistview/route/wishlistchart.html',
+                    controller: 'wishlistchart-controller'
 
-                        ]
-                    }
 
                 }
 
@@ -147,23 +198,50 @@
     }]);//eof
 
 
+            module.controller('wishlistdetail-controller', ['$scope',  '$location' ,'$http', function($scope,$location,$http ){
+                console.log( ' ------wishlistdetail   ----'+JSON.stringify(     $scope.alldata , null, "    ") );
+            }]);
+
             module.controller('studentController', ['$scope',  '$location' ,'$http', 'submitform', function($scope,$location,$http,submitform ){
 
 //              console.log( ' SUBMIT  investigate-create    ----'+JSON.stringify(    $scope.config , null, "    ") );
 
+
+                $scope.wishlist={
+                    code : '',
+                    wishlist: ''
+                };
+
+
                 $scope.createstock = function () {
+                    console.log("----createstock ---"   );
 
-                        $scope.stock.code=$scope.mycode;
-                        console.log( JSON.stringify( $scope.stock, null, "    ") );
-                        submitform.sendData('POST',$scope.config.stockrest,$scope.stock);
-
-
+                    console.log( JSON.stringify( $scope.wishlist, null, "    ") );
+                    submitform.sendData('PUT','http://localhost:9000/wishlist/',$scope.wishlist);
                     console.log("----end ---"   );
                 };
 
-                $scope.callback = function(amount){
-                    console.log( 'CALL BACK    ----'+JSON.stringify( amount, null, "    ") );
-                    $scope.mycode =amount ['code'];
+                $scope.callback = function(value){
+                    alert('size:' + value);
+
+                    $scope.code='';
+                    $scope.wishlist.wishlist=value;
+                    $http.get('http://localhost:9000/wishlist/wishcategory?category='+ value).then(function (data) {
+                        //    console.log( JSON.stringify( data, null, "    ") );
+
+
+                        for (i in data.data) {
+                            console.log('----DATA-------' +  data.data[i].code);
+                            //$scope.codes.push(data.data[i].code);
+                            $scope.code = $scope.code +','+ data.data[i].code;
+
+                        }
+                        $scope.code  = $scope.code.substring(1,$scope.code.length  );
+
+                        console.log('----ALL -  DATA-------' +  $scope.code );
+                        $scope.wishlist.code = $scope.code;
+
+                    });
                 }
 
 
@@ -171,10 +249,28 @@
 
         }]);
 
+        module.controller('wishlistchart-controller', ['$scope','$location','$http','$rootScope', function($scope,$location,$http,$rootScope){
+            var howManyTimes = $scope.wishlistcatcode.length;
+            var i = 0;
+            function f() {
+                // alert( "hi" );
+                console.log('----DRAW-------' +  $scope.wishlistcatcode[i]  );
+                chartfunc($http ,$rootScope,  $scope.wishlistcatcode[i]  );
 
-        module.controller('sideNavController', ['$scope','$location', function($scope,$location){
+                i++;
+                if( i < howManyTimes ){
+                    setTimeout( f, 3000 );
+                }
+            }
+            f();
+
+
+        }]);
+
+
+        module.controller('sideNavController', ['$scope','$location','$http','$rootScope', function($scope,$location,$http,$rootScope){
             console.log('HERE IN CONTROLLER');
-
+            setconfig($rootScope);
             $scope.alert = function(arg) {
                 console.log('I AM CLICK ');
                 alert(arg);
@@ -192,12 +288,111 @@
             }
 
 
+            $http.get('http://localhost:9000/wishlistcategorys').then(function (data) {
+                console.log( JSON.stringify( data, null, "    ") );
+                $scope.wishlistchartlist=[];
+
+
+                for (i in data.data) {
+                    console.log('----CATS wishilist-------' +  i);
+                    $scope.wishlistchartlist.push(data.data[i]);
+
+                }
+
+                $scope.wishlistlist= $scope.wishlistchartlist;
+
+            });
+
+
+
+
+            $scope.updateMode = function (){
+
+                console.log('----SELECTED MAIN **-------' +  $scope.selectedWishlistchartlist );
+               // wishlistcatcode=[];
+                $http.get('http://localhost:9000/wishlist/wishcategory?category='+ $scope.selectedWishlistchartlist).then(function (data) {
+                       // console.log('----DATA wishlistcatcode-------' +  data.data[0].code);
+                  // var  wishlistcatcode = data.data[0].code.split(',');
+
+                    $scope.wishlistcatcode = data.data[0].code.split(',');
+
+
+                    // var howManyTimes = wishlistcatcode.length;
+                    // var i = 0;
+                    // function f() {
+                    //     // alert( "hi" );
+                    //     console.log('----DRAW-------' +  wishlistcatcode[i]  );
+                    //     chartfunc($http ,$rootScope,  wishlistcatcode[i]  );
+                    //
+                    //     i++;
+                    //     if( i < howManyTimes ){
+                    //         setTimeout( f, 3000 );
+                    //     }
+                    // }
+                    // f();
+                    $location.path('/wishlistchart');
+
+
+
+                });
+            }; // eof updateMode
+            $scope.alldata=[];
+
+            $scope.detaillook = function (){
+
+                console.log('----SELECTED detaillook **-------' +  $scope.selectedWishlistlist );
+                // wishlistcatcode=[];
+                $http.get('http://localhost:9000/wishlist/wishcategory?category='+ $scope.selectedWishlistlist).then(function (data) {
+                   // console.log('----DATA wishlistcatcode-------' +  data.data[0].code);
+                    // var  wishlistcatcode = data.data[0].code.split(',');
+                    //
+                    // var howManyTimes = wishlistcatcode.length;
+                    // var i = 0;
+                    // function f() {
+                    //     // alert( "hi" );
+                    //     console.log('----DRAW-------' +  wishlistcatcode[i]  );
+                    //     chartfunc($http ,$rootScope,  wishlistcatcode[i]  );
+                    //
+                    //     i++;
+                    //     if( i < howManyTimes ){
+                    //         setTimeout( f, 3000 );
+                    //     }
+                    // }
+                    // f();
+
+                    var mystocks =  data.data[0].code;
+                    //var mydate = moment().format('YYYY-MM-DD');
+                    var mydate = '2018-12-14';
+
+                    console.log('----SELECTED detaillook **-------' +  'http://192.168.0.8:9000/data/stocks?stocks='+ mystocks +  '&date='+ mydate    );
+
+                    $http.get('http://192.168.0.8:9000/data/stocks?stocks='+ mystocks +  '&date='+ mydate    ).then(function (data) {
+                        console.log(JSON.stringify(data.data, null, "    "));
+                        for (i in data.data) {
+                            $scope.alldata.push(data.data[i]);
+                        }
+
+
+                    });
+                    console.log('----SELECTED detaillook  ROUTE **-------' );
+
+                    $location.path('/wishlistdetails');
+
+
+                });
+            }; // eof detaillook
+
+
+
+
+
 
 
         }]);
     </script>
-    <script src = "/fundamentalview/service/submitservice.js"></script>
-    <script src = "/fundamentalview/component/autcompletestock.js"></script>
+    <script src = "/wishlistview/service/submitservice.js"></script>
+    <script src = "/wishlistview/component/autocompletewishlistcat.js"></script>
+
 
 </head>
 <body ng-app="firstApplication" style="background-color: none" layout="row" ng-controller="sideNavController">
@@ -219,9 +414,23 @@
         <md-subheader class="md-no-sticky">My Features</md-subheader>
         <md-list-item class="secondary-button-padding" ng-click="alert('clicked')"> <p>  All Stock </p> </md-list-item>
 
-        <md-list-item class="secondary-button-padding" ng-click=""> <p> <a href="/fundamentalview/templates/research-index.html#/student/">ALLstock </a> </p> </md-list-item>
+        <md-list-item class="secondary-button-padding" ng-click=""> <p> <a href="/wishlistview/templates/student.html#/student/">ALLstock </a> </p> </md-list-item>
         <md-list-item class="secondary-button-padding" ng-click="" md-ink-ripple="#FF0400"> <p>Fundamental</p> </md-list-item>
-            <md-menu>
+
+        <md-list-item class="secondary-button-padding" ng-click="">
+            <md-select ng-model="selectedWishlistchartlist" placeholder="Select your favorite super hero"   ng-change="updateMode()" >
+                <md-option ng-repeat="item in wishlistchartlist">{{item}}</md-option>
+            </md-select>
+        </md-list-item>
+
+        <md-list-item class="secondary-button-padding" ng-click="">
+            <md-select ng-model="selectedWishlistlist" placeholder="STATS"   ng-change="detaillook()" >
+                <md-option ng-repeat="item in wishlistlist">{{item}}</md-option>
+            </md-select>
+        </md-list-item>
+
+
+        <md-menu>
                 <!-- Trigger for menu -->
                 <md-button ng-click="$mdOpenMenu()"> News </md-button>
                 <!-- Individual menu options and buttons-->
@@ -234,6 +443,9 @@
                     <md-menu-item>
                         <md-button ng-click="editnews()"> edit </md-button>
                     </md-menu-item>
+
+
+
 
                 </md-menu-content>
             </md-menu>
@@ -248,7 +460,13 @@
 
 <div layout="column" layout-fill>
     <div ng-view> </div>
+    <div class="container">
+        <div class="row">
+            <!--<div class="col-md-12" >-->
+                <!--<div id='container1'></div>-->
+            <!--</div>-->
 
+     </div>
 
 
 

@@ -1,0 +1,30 @@
+<table id="example" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>code</th>
+            <th>% </th>
+            <th>fiftychg</th>
+            <th>onehundredfiftychg</th>
+            <th>twohundredchg</th>
+            <th>rsi</th>
+        </tr>
+    </thead>
+    <tbody>
+
+
+    <tr ng-repeat="data in  alldata">
+
+        <td> {{data.code}}    </td>
+        <td> {{data.changepercent * 100 }}    </td>
+        <td> {{ (data.fiftychg* 100 ).toFixed(3) }}    </td>
+        <td> {{(data.onehundredfiftychg* 100 ).toFixed(3) }}    </td>
+        <td> {{(data.twohundredchg* 100 ).toFixed(3) }}    </td>
+        <td> {{data.rsi}}    </td>
+
+
+
+    </tr>
+
+
+    </tbody>
+</table>

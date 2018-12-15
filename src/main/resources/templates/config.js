@@ -1,4 +1,4 @@
-var serverurl='http://localhost:8070';
+var serverurl='http://192.168.0.8:9000';
 
 
 
@@ -12,7 +12,7 @@ console.log('----setconfig-----');
         invesitgaterest : serverurl + '/investigate',
         stockallrest : serverurl + '/stocks',
         stockrest : serverurl + '/stock',
-        apple: 'myapple'
+        data: serverurl + '/data'
     };
 
 

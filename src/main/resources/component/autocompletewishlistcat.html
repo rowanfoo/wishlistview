@@ -1,0 +1,15 @@
+
+<div>
+    <md-autocomplete md-selected-item="selectedItem"
+                     md-search-text="searchText"
+                     placeholder="Select code"
+                     md-item-text="item.code"
+                     md-input-name="code"
+                     md-selected-item-change="$ctrl.selectedcode(item)"
+                     md-items="item in filterItems(searchText)"
+                     md-min-length="0"   >
+        <md-item-template>
+            <span md-highlight-text="searchText" md-highlight-flags="^i">{{ item}}  </span>
+        </md-item-template>
+    </md-autocomplete>
+</div>

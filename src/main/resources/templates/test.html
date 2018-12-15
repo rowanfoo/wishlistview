@@ -1,0 +1,336 @@
+<html lang = "en">
+<head>
+    <!--<script src = "/fundamentalview/js/angular.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-animate.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-aria.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-messages.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-material.min.js"></script>-->
+    <!--<script src = "/fundamentalview/js/angular-route.js"></script>-->
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js"></script>
+
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-aria.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.min.js"></script>
+
+    <script src = "https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+    <script src = "/wishlistview/templates/config.js"></script>
+
+
+
+
+    <!---->
+    <!---->
+
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>-->
+    <!--<script src = "/wishlistview/templates/config.js"></script>-->
+
+    <!--&lt;!&ndash; Angular Material Library &ndash;&gt;-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>-->
+
+    <!--&lt;!&ndash; Angular Material style sheet &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">-->
+
+
+    <link rel = "stylesheet" href = "/wishlistview/css/angular-material.min.css">
+
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel = "stylesheet" href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" >
+
+
+
+
+    <script language = "javascript">
+
+        var module = angular.module('firstApplication', ['ngMaterial','ngRoute']);
+        module.run(function($rootScope){
+            setconfig($rootScope);
+        });
+
+        module.config(function ($routeProvider) {
+
+            $routeProvider.when('/student', {
+                templateUrl: '/wishlistview/route/allstock/allstockdefault.html',
+                controller: 'studentController'
+
+            }).when(
+                '/createnews', {
+                    templateUrl: '/wishlistview/route/investigate/investigate-create.html',
+                    controller: 'investigate-create'
+                }
+
+            ).when(
+                '/editenews', {
+                    templateUrl: '/wishlistview/route/investigate/investigate-edit.html',
+                    controller: 'investigate-edit',
+                    resolve:{
+                        testdata: ['$http',function ($http) {
+                            return $http.get('http://localhost:8070/reinvestigate').then(function (data) {
+                                // console.log(' load  ' + JSON.stringify(  data, null, "    ") );
+                                return data.data;
+                            })
+                        }
+
+                        ]
+                    }
+
+                }
+
+            )
+
+        });
+
+
+        module.config(function($mdIconProvider) {
+            $mdIconProvider
+                .defaultFontSet('FontAwesome')
+                .fontSet('fa', 'FontAwesome');
+        });
+
+
+        module.config(function($sceDelegateProvider) {
+            $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://localhost:8070/**'] );
+        });
+
+
+
+
+
+
+        module.controller('sideNavController', ['$scope','$location','$http' ,'submitform', function($scope,$location,$http,submitform){
+            console.log('HERE IN CONTROLLER');
+
+            $scope.superHeroes=[];
+            $http.get('http://localhost:9000/wishlistcategorys').then(function (data) {
+                console.log( JSON.stringify( data, null, "    ") );
+                for (i in data.data) {
+                    console.log('----CATS wishilist-------' +  i);
+                    $scope.superHeroes.push(data.data[i]);
+
+                }
+
+            });
+
+            $scope.updateMode = function (){
+
+                console.log('----SELECTED MAIN **-------' +  $scope.selectedSuperHero );
+
+
+
+
+            };
+
+
+            $scope.alert = function(arg) {
+                console.log('I AM CLICK ');
+                alert(arg);
+                $location.path('/student');
+            }
+
+            $scope.createnews = function () {
+                $location.path('/createnews');
+
+            }
+
+            $scope.editnews = function () {
+                $location.path('/editenews');
+
+            }
+
+
+            $scope.users = [
+                { id: 1, name: 'Bob' },
+                { id: 2, name: 'Alice' },
+                { id: 3, name: 'Steve' }
+            ];
+
+            $scope.sizes = [
+                "small (12-inch)",
+                "medium (14-inch)",
+                "large (16-inch)",
+                "insane (42-inch)"
+            ];
+            $scope.size;
+
+            $scope.selectedUser = { id: 1, name: 'Bob' };
+            // $scope.foods= Food[] = [
+            //     {value: 'steak-0', viewValue: 'Steak'},
+            //     {value: 'pizza-1', viewValue: 'Pizza'},
+            //     {value: 'tacos-2', viewValue: 'Tacos'}
+            // ];
+
+
+            $scope.wishlist={
+                code : '',
+                wishlist: ''
+            };
+
+            $http.get('http://localhost:9000/wishlistcategorys').then(function (data) {
+                //    console.log( JSON.stringify( data, null, "    ") );
+
+                $scope.codes = [];
+                for (i in data.data) {
+                    console.log('----DATA-------' +  data.data[i]);
+                    $scope.codes.push(data.data[i]);
+                }
+            });
+
+
+
+            $scope.callback = function (value) {
+
+                alert('size:' + value);
+
+                $scope.code='';
+                $scope.wishlist.wishlist=value;
+
+
+
+            }
+
+
+
+            $scope.createstock = function () {
+
+                console.log("----createstock ---"   );
+
+                console.log( JSON.stringify( $scope.wishlist, null, "    ") );
+                submitform.sendData('PUT','http://localhost:9000/wishlist/',$scope.wishlist);
+                console.log("----end ---"   );
+            };
+
+
+
+
+
+
+        }]);
+
+    </script>
+    <script src = "/wishlistview/service/submitservice.js"></script>
+    <script src = "/wishlistview/component/autocompletewishlistcat.js"></script>
+
+</head>
+
+
+
+
+
+<body ng-app="firstApplication" style="background-color: none" layout="row" ng-controller="sideNavController">
+
+<!--<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-componentid="left" md-is-locked-open="$mdMedia('gt-md')">-->
+    <!--<md-toolbar layout="row" layout-align="left">-->
+        <!--<div>Welcome User!</div>-->
+        <!--<div>login </div>-->
+        <!--<div>logout </div>-->
+    <!--</md-toolbar>-->
+
+
+
+
+
+
+
+
+    <!--<md-list>-->
+        <!--<md-subheader class="md-no-sticky">My Features</md-subheader>-->
+        <!--<md-list-item class="secondary-button-padding" ng-click="alert('clicked')"> <p>  All Stock </p> </md-list-item>-->
+
+        <!--<md-list-item class="secondary-button-padding" ng-click=""> <p> <a href="/wishlistview/templates/research-index.html#/student/">ALLstock </a> </p> </md-list-item>-->
+        <!--<md-list-item class="secondary-button-padding" ng-click="" md-ink-ripple="#FF0400"> <p>Fundamental</p> </md-list-item>-->
+
+
+        <!--<md-divider></md-divider>-->
+    <!--</md-list>-->
+
+
+
+<!--</md-sidenav>-->
+
+<!--<mat-select placeholder="Favorite food">-->
+    <!--<mat-option *ngFor="let food of users" [value]="user.name">-->
+        <!--{{food.viewValue}}-->
+    <!--</mat-option>-->
+<!--</mat-select>-->
+
+
+
+<!--<mat-select ng-model="selectedSuperHero" placeholder="Select your favorite super hero">-->
+    <!--<mat-option ng-value="item" ng-repeat="item in users">-->
+        <!--{{item.name}}-->
+    <!--</mat-option>-->
+<!--</mat-select>-->
+
+
+
+
+<!--<md-input-container style="margin-right: 10px;">-->
+    <!--<label>Size</label>-->
+    <!--<md-select ng-model="size" ng-change="selectbox()" >-->
+        <!--<md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>-->
+    <!--</md-select>-->
+
+
+
+<!--</md-input-container>-->
+
+
+
+
+
+
+
+
+
+
+<!--<div></div>-->
+
+<md-content flex layout-padding>
+    <form class="well input-form" name="inputform"    ng-submit="createstock()" method="post">
+
+
+        <wishlistcat selectedcode="callback"></wishlistcat>
+
+
+        <p>
+            <mat-form-field  style="width: 2600px;">
+                <textarea matInput md-input-name="reason" ng-model="wishlist.code"    name="reason"  rows="2" cols="60" formControlName="description" matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 placeholder="codes"></textarea>
+            </mat-form-field>
+        </p>
+
+        <p><button type="submit" class="btn btn-info btn-fill pull-left">Submit</button></p>
+
+        <md-select ng-model="selectedSuperHero" placeholder="Select your favorite super hero"   ng-change="updateMode()" >
+            <md-option ng-repeat="item in superHeroes">{{item}}</md-option>
+        </md-select>
+
+
+    </form>
+
+</md-content>
+
+
+
+
+
+
+
+
+</body>
+</html>

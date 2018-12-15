@@ -12,7 +12,7 @@ app.service('submitform',['$http',function($http) {
 
     this.sendData=function(method ,url,data) {
         if(method == 'PUT'){
-            $http.put(url,  $scope.investigate,data).then(
+            $http.put(url, data).then(
                 function(response) {
                     console.log('PUT  '+ response.data );
                     $mdDialog.hide();
